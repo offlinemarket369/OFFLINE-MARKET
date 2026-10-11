@@ -1,0 +1,140 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OFFLINE MARKET — Kotputli's Local Discovery</title>
+  <meta name="description" content="Find local businesses, services, mechanics, jobs, and second-hand items in Kotputli. Call directly." />
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Header -->
+  <header class="bg-blue-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-50 shadow">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">🏪</span>
+      <span class="font-bold text-lg">OFFLINE MARKET</span>
+    </div>
+    <button class="text-sm bg-orange-500 hover:bg-orange-600 px-3 py-1 rounded font-semibold">
+      Login
+    </button>
+  </header>
+
+  <!-- Location + Search -->
+  <section class="bg-gradient-to-b from-blue-900 to-blue-800 text-white px-4 pt-6 pb-8">
+    <div class="flex items-center gap-2 text-sm mb-4">
+      <span>📍</span>
+      <span>Kotputli</span>
+    </div>
+
+    <h1 class="text-2xl font-bold mb-2">
+      क्या ढूंढ रहे हैं?
+    </h1>
+    <p class="text-blue-200 text-sm mb-4">
+      What are you looking for?
+    </p>
+
+    <div class="bg-white rounded-lg flex items-center px-3 py-2 shadow-lg">
+      <span class="text-gray-400 mr-2">🔍</span>
+      <input
+        type="text"
+        placeholder="Mobile repair, t-shirt, mechanic..."
+        class="w-full outline-none text-gray-900 placeholder-gray-400 text-sm"
+      />
+    </div>
+  </section>
+
+  <!-- Priority: Mechanic Section -->
+  <section class="px-4 py-6">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="font-bold text-lg">🔧 मैकेनिक / Mechanics</h2>
+      <a href="#" class="text-orange-500 text-sm font-semibold">View all →</a>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+        <div class="bg-gray-100 rounded h-24 mb-2 flex items-center justify-center text-3xl">🏍️</div>
+        <p class="font-semibold text-sm">Rajesh Motorcycle</p>
+        <p class="text-xs text-gray-500">Kotputli</p>
+        <p class="text-xs text-green-600 font-semibold mt-1">⭐ 4.5</p>
+      </div>
+      <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+        <div class="bg-gray-100 rounded h-24 mb-2 flex items-center justify-center text-3xl">🚗</div>
+        <p class="font-semibold text-sm">Kotputli Car Care</p>
+        <p class="text-xs text-gray-500">Main Market</p>
+        <p class="text-xs text-green-600 font-semibold mt-1">⭐ 4.2</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="px-4 py-6 bg-white">
+    <h2 class="font-bold text-lg mb-3">Categories / श्रेणियाँ</h2>
+    <div class="grid grid-cols-4 gap-3 text-center text-xs">
+      <div class="flex flex-col items-center">
+        <div class="bg-orange-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">🔧</div>
+        <span>Services</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="bg-orange-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">👕</div>
+        <span>Retail</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="bg-orange-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">📚</div>
+        <span>Education</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="bg-orange-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">🍽️</div>
+        <span>Food</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="bg-green-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">💼</div>
+        <span>Jobs</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="bg-green-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">🎁</div>
+        <span>Offers</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="bg-green-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">♻️</div>
+        <span>Sell</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="bg-green-100 rounded-lg w-14 h-14 flex items-center justify-center text-2xl mb-1">🔎</div>
+        <span>Wanted</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 text-xs">
+    <a href="/" class="flex flex-col items-center text-blue-900">
+      <span class="text-xl">🏠</span>
+      <span>Home</span>
+    </a>
+    <a href="#" class="flex flex-col items-center text-gray-500">
+      <span class="text-xl">🔍</span>
+      <span>Search</span>
+    </a>
+    <a href="#" class="flex flex-col items-center text-gray-500">
+      <span class="text-xl">➕</span>
+      <span>Sell</span>
+    </a>
+    <a href="#" class="flex flex-col items-center text-gray-500">
+      <span class="text-xl">💼</span>
+      <span>Jobs</span>
+    </a>
+    <a href="#" class="flex flex-col items-center text-gray-500">
+      <span class="text-xl">👤</span>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- Spacer for bottom nav -->
+  <div class="h-20"></div>
+
+</body>
+</html>
