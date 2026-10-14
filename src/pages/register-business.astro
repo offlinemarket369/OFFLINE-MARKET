@@ -1,0 +1,136 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Your Business — OFFLINE MARKET</title>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Header -->
+  <header class="bg-blue-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-50 shadow">
+    <a href="/" class="flex items-center gap-2">
+      <span class="text-2xl">🏪</span>
+      <span class="font-bold text-lg">OFFLINE MARKET</span>
+    </a>
+    <a href="/" class="text-sm text-blue-200">← Back</a>
+  </header>
+
+  <!-- Form -->
+  <main class="px-4 py-6 max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold mb-1">Register Your Business</h1>
+    <p class="text-gray-500 text-sm mb-6">अपनी दुकान रजिस्टर करें — Admin approval के बाद live होगी</p>
+
+    <form class="space-y-5 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+
+      <!-- Shop Name -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Shop Name / दुकान का नाम *</label>
+        <input type="text" required
+          placeholder="e.g. Sharma Mobile Shop"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500" />
+      </div>
+
+      <!-- Owner Name -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Owner Name / मालिक का नाम *</label>
+        <input type="text" required
+          placeholder="e.g. Rajesh Sharma"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500" />
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Contact Number / फ़ोन नंबर *</label>
+        <input type="tel" required pattern="[0-9]{10}"
+          placeholder="10-digit mobile number"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500" />
+      </div>
+
+      <!-- WhatsApp -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">WhatsApp Number (optional)</label>
+        <input type="tel"
+          placeholder="Same as contact if empty"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500" />
+      </div>
+
+      <!-- Category -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Category / श्रेणी *</label>
+        <select required
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500">
+          <option value="">-- Select Category --</option>
+          <option>Services / सेवाएँ</option>
+          <option>Retail / खुदरा</option>
+          <option>Education / शिक्षा</option>
+          <option>Food / खाना</option>
+          <option>Other / अन्य</option>
+        </select>
+      </div>
+
+      <!-- Subcategory -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Subcategory / उप-श्रेणी *</label>
+        <select required
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500">
+          <option value="">-- Select Subcategory --</option>
+          <option>Mobile Repair / मोबाइल रिपेयर</option>
+          <option>AC Repair / एसी रिपेयर</option>
+          <option>Mechanic / मैकेनिक</option>
+          <option>Photography / फ़ोटोग्राफ़ी</option>
+          <option>Tailor / दर्जी</option>
+          <option>Other / अन्य</option>
+        </select>
+      </div>
+
+      <!-- Address -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Full Address / पूरा पता *</label>
+        <textarea required rows="3"
+          placeholder="Shop no, street, area..."
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"></textarea>
+      </div>
+
+      <!-- Area -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Area / इलाका *</label>
+        <select required
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500">
+          <option value="">-- Select Area --</option>
+          <option>Kotputli</option>
+          <option>Behror</option>
+        </select>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Description / विवरण</label>
+        <textarea rows="3"
+          placeholder="What do you sell or offer?"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500"></textarea>
+      </div>
+
+      <!-- Info box -->
+      <div class="bg-orange-50 border border-orange-200 rounded-lg p-3 text-xs text-orange-800">
+        ℹ️ <b>Admin approval के बाद ही आपकी दुकान public में दिखेगी।</b> Usually within 24 hours.
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition">
+        Submit for Approval / जमा करें
+      </button>
+
+    </form>
+  </main>
+
+  <!-- Spacer -->
+  <div class="h-20"></div>
+
+</body>
+</html>
