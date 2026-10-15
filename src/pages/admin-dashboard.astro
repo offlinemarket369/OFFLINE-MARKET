@@ -1,0 +1,155 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — OFFLINE MARKET</title>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <header class="bg-blue-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-50 shadow">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">🔐</span>
+      <span class="font-bold text-lg">Admin Dashboard</span>
+    </div>
+    <button id="logoutBtn" class="text-sm bg-red-500 hover:bg-red-600 px-3 py-1 rounded font-semibold">
+      Logout
+    </button>
+  </header>
+
+  <main class="px-4 py-6 max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-xl font-bold">Pending Businesses</h1>
+      <button id="refreshBtn" class="text-sm bg-blue-100 text-blue-900 px-3 py-1 rounded font-semibold">
+        🔄 Refresh
+      </button>
+    </div>
+
+    <div id="loading" class="text-center py-10 text-gray-400">Loading...</div>
+    <div id="empty" class="hidden text-center py-10 text-gray-400">Koi business pending nahi hai ✅</div>
+    <div id="list" class="space-y-3"></div>
+  </main>
+
+  <script is:inline>
+    const API = 'https://offline-market-api.offlinemarket369.workers.dev';
+    const token = localStorage.getItem('adminToken');
+
+    if (!token) {
+      window.location.href = '/admin-login';
+    }
+
+    const loading = document.getElementById('loading');
+    const empty = document.getElementById('empty');
+    const list = document.getElementById('list');
+
+    function statusBadge(status) {
+      const colors = {
+        pending: 'bg-yellow-100 text-yellow-800',
+        approved: 'bg-green-100 text-green-800',
+        rejected: 'bg-red-100 text-red-800',
+      };
+      return `<span class="text-xs font-bold px-2 py-0.5 rounded ${colors[status] || 'bg-gray-100'}">${status.toUpperCase()}</span>`;
+    }
+
+    function renderCard(b) {
+      return `
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <div>
+              <h3 class="font-bold text-base">${b.shop_name}</h3>
+              <p class="text-xs text-gray-500">${b.owner_name} • ${b.phone}</p>
+            </div>
+            ${statusBadge(b.status)}
+          </div>
+          <div class="text-xs text-gray-600 space-y-1 mb-3">
+            <p><b>Category:</b> ${b.category} → ${b.subcategory}</p>
+            <p><b>Area:</b> ${b.area}</p>
+            <p><b>Address:</b> ${b.address}</p>
+            ${b.description ? `<p><b>Description:</b> ${b.description}</p>` : ''}
+            <p class="text-gray-400">ID: #${b.id} • ${b.created_at}</p>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <a href="tel:${b.phone}" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded font-semibold">📞 Call</a>
+            <a href="https://wa.me/91${b.whatsapp}" target="_blank" class="text-xs bg-green-100 hover:bg-green-200 text-green-800 px-3 py-1.5 rounded font-semibold">💬 WhatsApp</a>
+            ${b.status === 'pending' ? `
+              <button data-action="approve" data-id="${b.id}" class="text-xs bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded font-semibold">✅ Approve</button>
+              <button data-action="reject" data-id="${b.id}" class="text-xs bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded font-semibold">❌ Reject</button>
+            ` : ''}
+            <button data-action="delete" data-id="${b.id}" class="text-xs bg-red-100 hover:bg-red-200 text-red-800 px-3 py-1.5 rounded font-semibold ml-auto">🗑 Delete</button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadBusinesses() {
+      loading.classList.remove('hidden');
+      empty.classList.add('hidden');
+      list.innerHTML = '';
+      try {
+        const res = await fetch(API + '/api/admin/businesses', {
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+        if (res.status === 401) {
+          localStorage.removeItem('adminToken');
+          window.location.href = '/admin-login';
+          return;
+        }
+        const json = await res.json();
+        const items = json.businesses || [];
+        if (items.length === 0) {
+          empty.classList.remove('hidden');
+        } else {
+          list.innerHTML = items.map(renderCard).join('');
+        }
+      } catch (err) {
+        list.innerHTML = `<div class="text-red-500 text-sm">Error: ${err.message}</div>`;
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+
+    list.addEventListener('click', async (e) => {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+
+      if (action === 'delete' && !confirm('Pakka delete karna hai?')) return;
+      if (action === 'reject' && !confirm('Reject karna hai?')) return;
+
+      btn.disabled = true;
+      btn.textContent = '...';
+
+      try {
+        const res = await fetch(`${API}/api/admin/${action}/${id}`, {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+        const json = await res.json();
+        if (json.success) {
+          loadBusinesses();
+        } else {
+          alert('Error: ' + (json.error || 'Unknown'));
+          btn.disabled = false;
+        }
+      } catch (err) {
+        alert('Network error: ' + err.message);
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById('refreshBtn').addEventListener('click', loadBusinesses);
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('adminToken');
+      window.location.href = '/admin-login';
+    });
+
+    loadBusinesses();
+  </script>
+
+</body>
+</html>

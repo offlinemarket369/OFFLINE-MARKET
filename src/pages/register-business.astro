@@ -112,7 +112,7 @@ import '../styles/global.css';
 
   <div class="h-20"></div>
 
-  <script>
+  <script is:inline>
     const subcats = {
       Services: ['Mobile Repair', 'AC Repair', 'Vehicle Repair', 'Mechanic', 'Photography', 'Catering', 'Construction', 'DJ', 'Tailor', 'Beauty', 'Painting', 'Other'],
       Retail: ['Clothing', 'Footwear', 'Electronics', 'Mobile', 'Furniture', 'Grocery', 'Jewellery', 'Cosmetics', 'Stationery', 'Sports', 'Bags', 'Watches', 'Other'],
@@ -142,7 +142,41 @@ import '../styles/global.css';
         subSelect.appendChild(opt);
       });
     });
-  </script>
+ 
+    // Form submit
+    const form = document.getElementById('businessForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries());
+
+      try {
+        const res = await fetch('https://offline-market-api.offlinemarket369.workers.dev/api/businesses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+
+        if (json.success) {
+          alert('✅ ' + json.message);
+          form.reset();
+          document.getElementById('subcategory').innerHTML = '<option value="">-- Pehle Category select karo --</option>';
+        } else {
+          alert('❌ Error: ' + (json.error || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('❌ Network error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }); </script>
 
 </body>
 </html>

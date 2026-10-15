@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — OFFLINE MARKET</title>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm">
+    <div class="text-center mb-6">
+      <div class="text-4xl mb-2">🔐</div>
+      <h1 class="text-xl font-bold">Admin Login</h1>
+      <p class="text-gray-500 text-xs mt-1">OFFLINE MARKET — Admin Panel</p>
+    </div>
+
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Password</label>
+        <input type="password" id="password" required
+          placeholder="Enter admin password"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500" />
+      </div>
+
+      <div id="error" class="hidden bg-red-50 border border-red-200 text-red-700 text-xs p-2 rounded"></div>
+
+      <button type="submit"
+        class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-lg transition">
+        Login
+      </button>
+    </form>
+
+    <p class="text-center text-xs text-gray-400 mt-4">
+      <a href="/" class="hover:text-orange-500">← Back to Home</a>
+    </p>
+  </div>
+
+  <script is:inline>
+    const API = 'https://offline-market-api.offlinemarket369.workers.dev';
+    const form = document.getElementById('loginForm');
+    const errorEl = document.getElementById('error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.classList.add('hidden');
+      const password = document.getElementById('password').value;
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Checking...';
+
+      try {
+        const res = await fetch(API + '/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+        const json = await res.json();
+
+        if (json.success) {
+          localStorage.setItem('adminToken', json.token);
+          window.location.href = '/admin-dashboard';
+        } else {
+          errorEl.textContent = json.error || 'Invalid password';
+          errorEl.classList.remove('hidden');
+        }
+      } catch (err) {
+        errorEl.textContent = 'Network error: ' + err.message;
+        errorEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Login';
+      }
+    });
+  </script>
+
+</body>
+</html>
