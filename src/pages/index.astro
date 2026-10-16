@@ -50,31 +50,19 @@ import '../styles/global.css';
     </div>
   </section>
 
-  <!-- Priority: Mechanic Section -->
+  
+   <!-- Approved Businesses Section -->
   <section class="px-4 py-6">
     <div class="flex items-center justify-between mb-3">
-      <h2 class="font-bold text-lg">🔧 मैकेनिक / Mechanics</h2>
-      <a href="#" class="text-orange-500 text-sm font-semibold">View all →</a>
+      <h2 class="font-bold text-lg">🏪 दुकानें / Businesses</h2>
+      <a href="/register-business" class="text-orange-500 text-sm font-semibold">+ Add yours →</a>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
-      <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
-        <div class="bg-gray-100 rounded h-24 mb-2 flex items-center justify-center text-3xl">🏍️</div>
-        <p class="font-semibold text-sm">Rajesh Motorcycle</p>
-        <p class="text-xs text-gray-500">Kotputli</p>
-        <p class="text-xs text-green-600 font-semibold mt-1">⭐ 4.5</p>
-      </div>
-      <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
-        <div class="bg-gray-100 rounded h-24 mb-2 flex items-center justify-center text-3xl">🚗</div>
-        <p class="font-semibold text-sm">Kotputli Car Care</p>
-        <p class="text-xs text-gray-500">Main Market</p>
-        <p class="text-xs text-green-600 font-semibold mt-1">⭐ 4.2</p>
-      </div>
+    <div id="businessList" class="grid grid-cols-2 gap-3">
+      <div class="col-span-2 text-center text-gray-400 text-sm py-6">Loading...</div>
     </div>
-  </section>
-
-  <!-- Categories -->
-  <section class="px-4 py-6 bg-white">
+    </section>
+     <section class="px-4 py-6 bg-white">
     <h2 class="font-bold text-lg mb-3">Categories / श्रेणियाँ</h2>
     <div class="grid grid-cols-4 gap-3 text-center text-xs">
       <div class="flex flex-col items-center">
@@ -138,6 +126,35 @@ import '../styles/global.css';
 
   <!-- Spacer for bottom nav -->
   <div class="h-20"></div>
+    <script is:inline>
+    var API = 'https://offline-market-api.offlinemarket369.workers.dev';
+    var list = document.getElementById('businessList');
+
+    fetch(API + '/api/businesses')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var items = data.businesses || [];
+        if (items.length === 0) {
+          list.innerHTML = ['<div class="col-span-2 text-center text-gray-400 text-sm py-6">',
+            'Abhi koi business approved nahi hai.',
+            '</div>'].join('');
+          return;
+        }
+        var html = [];
+        items.forEach(function(b) {
+          html.push('<div class="bg-white p-3 rounded-lg shadow-sm border border-gray-100">');
+          html.push('<div class="bg-gray-100 rounded h-24 mb-2 flex items-center justify-center text-3xl">🏪</div>');
+          html.push('<p class="font-semibold text-sm truncate">' + b.shop_name + '</p>');
+          html.push('<p class="text-xs text-gray-500">' + b.category + ' - ' + b.subcategory + '</p>');
+          html.push('<p class="text-xs text-gray-400">' + b.area + '</p>');
+          html.push('</div>');
+        });
+        list.innerHTML = html.join('');
+      })
+      .catch(function() {
+        list.innerHTML = '<div class="col-span-2 text-center text-red-500 text-sm py-6">Error</div>';
+      });
+  </script>
 
 </body>
 </html>
