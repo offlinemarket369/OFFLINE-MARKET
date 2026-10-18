@@ -52,7 +52,17 @@ import '../styles/global.css';
           placeholder="Same as contact if empty"
           class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500" />
       </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Face Photo / चेहरे की फोटो</label>
+        <input type="file" name="face_photo" accept="image/*"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-gray-50" />
+      </div>
 
+      <div>
+        <label class="block text-sm font-semibold mb-1">Shop Photo / दुकान की फोटो</label>
+        <input type="file" name="shop_photo" accept="image/*"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-gray-50" />
+      </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Category / श्रेणी *</label>
         <select name="category" id="category" required
@@ -152,17 +162,14 @@ import '../styles/global.css';
       btn.disabled = true;
       btn.textContent = 'Submitting...';
 
-      const fd = new FormData(form);
-      const data = Object.fromEntries(fd.entries());
+            const fd = new FormData(form);
 
       try {
         const res = await fetch('https://offline-market-api.offlinemarket369.workers.dev/api/businesses', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: fd,
         });
         const json = await res.json();
-
         if (json.success) {
           alert('✅ ' + json.message);
           form.reset();

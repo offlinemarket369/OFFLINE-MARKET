@@ -23,7 +23,7 @@ import '../styles/global.css';
 
   <main class="px-4 py-6 max-w-4xl mx-auto">
     <div class="flex items-center justify-between mb-4">
-      <h1 class="text-xl font-bold">Pending Businesses</h1>
+      <h1 class="text-xl font-bold">ALL Businesses</h1>
       <button id="refreshBtn" class="text-sm bg-blue-100 text-blue-900 px-3 py-1 rounded font-semibold">
         🔄 Refresh
       </button>
@@ -70,7 +70,8 @@ import '../styles/global.css';
             <p><b>Area:</b> ${b.area}</p>
             <p><b>Address:</b> ${b.address}</p>
             ${b.description ? `<p><b>Description:</b> ${b.description}</p>` : ''}
-            <p class="text-gray-400">ID: #${b.id} • ${b.created_at}</p>
+               ${b.face_photo_url ? `<div class="mt-2"><p class="text-xs font-bold text-gray-500 mb-1">Face Photo:</p><img src="${b.face_photo_url}" class="w-20 h-20 object-cover rounded" /></div>` : ''}
+          ${b.shop_photo_url ? `<div class="mt-2"><p class="text-xs font-bold text-gray-500 mb-1">Shop Photo:</p><img src="${b.shop_photo_url}" class="w-32 h-20 object-cover rounded" /></div>` : ''}       <p class="text-gray-400">ID: #${b.id} • ${b.created_at}</p>
           </div>
           <div class="flex gap-2 flex-wrap">
             <a href="tel:${b.phone}" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded font-semibold">📞 Call</a>
