@@ -142,12 +142,23 @@ import '../styles/global.css';
         }
         var html = [];
         items.forEach(function(b) {
-          html.push('<div class="bg-white p-3 rounded-lg shadow-sm border border-gray-100">');
-          html.push('<div class="bg-gray-100 rounded h-24 mb-2 flex items-center justify-center text-3xl">🏪</div>');
+                  html.push('<a href="/business?id=' + b.id + '" class="block bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md overflow-hidden">');
+          
+          if (b.shop_photo_url) {
+            html.push('<img src="' + b.shop_photo_url + '" class="w-full h-32 object-cover" />');
+          } else if (b.face_photo_url) {
+            html.push('<img src="' + b.face_photo_url + '" class="w-full h-32 object-cover" />');
+          } else {
+            html.push('<div class="bg-gray-100 h-32 flex items-center justify-center text-3xl">🏪</div>');
+          }
+          
+          html.push('<div class="p-3">');
           html.push('<p class="font-semibold text-sm truncate">' + b.shop_name + '</p>');
           html.push('<p class="text-xs text-gray-500">' + b.category + ' - ' + b.subcategory + '</p>');
           html.push('<p class="text-xs text-gray-400">' + b.area + '</p>');
           html.push('</div>');
+          
+          html.push('</a>');
         });
         list.innerHTML = html.join('');
       })

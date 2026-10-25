@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Details — OFFLINE MARKET</title>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <header class="bg-blue-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-50 shadow">
+    <a href="/" class="flex items-center gap-2">
+      <span class="text-2xl">🏪</span>
+      <span class="font-bold text-lg">OFFLINE MARKET</span>
+    </a>
+    <a href="/" class="text-sm text-blue-200">← Back</a>
+  </header>
+
+  <main id="mainContent" class="px-4 py-6 max-w-2xl mx-auto">
+    <div class="text-center py-10 text-gray-400">Loading...</div>
+  </main>
+
+  <script is:inline>
+    var API = 'https://offline-market-api.offlinemarket369.workers.dev';
+    var main = document.getElementById('mainContent');
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+
+    if (!id) {
+      main.innerHTML = '<div class="text-center py-10 text-red-500">No business ID provided</div>';
+    } else {
+      fetch(API + '/api/businesses/' + id)
+        .then(function(r) { return r.json(); })
+        .then(function(b) {
+          if (!b || b.error) {
+            main.innerHTML = '<div class="text-center py-10 text-red-500">Business not found</div>';
+            return;
+          }
+
+          var photos = [];
+          if (b.face_photo_url) photos.push(b.face_photo_url);
+          if (b.face_photo_2_url) photos.push(b.face_photo_2_url);
+          if (b.shop_photo_url) photos.push(b.shop_photo_url);
+          if (b.shop_photo_2_url) photos.push(b.shop_photo_2_url);
+          if (b.shop_photo_3_url) photos.push(b.shop_photo_3_url);
+
+          var photosHtml = photos.map(function(p) {
+            return '<img src="' + p + '" class="w-full h-48 object-cover rounded-lg" />';
+          }).join('');
+
+          var mapQuery = encodeURIComponent(b.address + ', ' + b.area);
+
+          main.innerHTML = [
+            '<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">',
+            
+            photos.length > 0 
+              ? '<div class="grid grid-cols-2 gap-1 p-1">' + photosHtml + '</div>'
+              : '<div class="bg-gray-100 h-48 flex items-center justify-center text-5xl">🏪</div>',
+
+            '<div class="p-4">',
+            '<h1 class="text-2xl font-bold mb-1">' + b.shop_name + '</h1>',
+            '<p class="text-sm text-gray-500 mb-1">' + b.owner_name + '</p>',
+            '<p class="text-xs text-gray-400 mb-3">' + b.category + ' → ' + b.subcategory + '</p>',
+
+            b.description ? '<p class="text-sm text-gray-700 mb-4">' + b.description + '</p>' : '',
+
+            '<div class="bg-gray-50 rounded-lg p-3 mb-4">',
+            '<p class="text-xs text-gray-500 mb-1">📍 Address</p>',
+            '<p class="text-sm font-semibold">' + b.address + ', ' + b.area + '</p>',
+            '</div>',
+
+            '<div class="grid grid-cols-3 gap-2">',
+            '<a href="tel:' + b.phone + '" class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold py-3 rounded-lg text-center">📞 Call</a>',
+            '<a href="https://wa.me/91' + b.whatsapp + '" target="_blank" class="bg-green-500 hover:bg-green-600 text-white text-sm font-bold py-3 rounded-lg text-center">💬 WhatsApp</a>',
+            '<a href="https://www.google.com/maps/search/?api=1&query=' + mapQuery + '" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-3 rounded-lg text-center">🗺️ Directions</a>',
+            '</div>',
+
+            '</div>',
+            '</div>'
+          ].join('');
+        })
+        .catch(function(err) {
+          main.innerHTML = '<div class="text-center py-10 text-red-500">Error: ' + err.message + '</div>';
+        });
+    }
+  </script>
+
+  <div class="h-20"></div>
+
+</body>
+</html>

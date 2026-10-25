@@ -70,9 +70,8 @@ import '../styles/global.css';
             <p><b>Area:</b> ${b.area}</p>
             <p><b>Address:</b> ${b.address}</p>
             ${b.description ? `<p><b>Description:</b> ${b.description}</p>` : ''}
-               ${b.face_photo_url ? `<div class="mt-2"><p class="text-xs font-bold text-gray-500 mb-1">Face Photo:</p><img src="${b.face_photo_url}" class="w-20 h-20 object-cover rounded" /></div>` : ''}
-          ${b.shop_photo_url ? `<div class="mt-2"><p class="text-xs font-bold text-gray-500 mb-1">Shop Photo:</p><img src="${b.shop_photo_url}" class="w-32 h-20 object-cover rounded" /></div>` : ''}       <p class="text-gray-400">ID: #${b.id} • ${b.created_at}</p>
-          </div>
+                     ${b.face_photo_url || b.face_photo_2_url ? `<div class="flex gap-2 mt-2"><p class="text-xs font-bold text-gray-500 w-16">Face:</p> ${b.face_photo_url ? `<img src="${b.face_photo_url}" class="w-16 h-16 object-cover rounded" />` : ''} ${b.face_photo_2_url ? `<img src="${b.face_photo_2_url}" class="w-16 h-16 object-cover rounded" />` : ''}</div>` : ''}
+          ${b.shop_photo_url || b.shop_photo_2_url || b.shop_photo_3_url ? `<div class="flex gap-2 mt-2 mb-4"><p class="text-xs font-bold text-gray-500 w-16">Shop:</p> ${b.shop_photo_url ? `<img src="${b.shop_photo_url}" class="w-16 h-16 object-cover rounded" />` : ''} ${b.shop_photo_2_url ? `<img src="${b.shop_photo_2_url}" class="w-16 h-16 object-cover rounded" />` : ''} ${b.shop_photo_3_url ? `<img src="${b.shop_photo_3_url}" class="w-16 h-16 object-cover rounded" />` : ''}</div>` : ''}
           <div class="flex gap-2 flex-wrap">
             <a href="tel:${b.phone}" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded font-semibold">📞 Call</a>
             <a href="https://wa.me/91${b.whatsapp}" target="_blank" class="text-xs bg-green-100 hover:bg-green-200 text-green-800 px-3 py-1.5 rounded font-semibold">💬 WhatsApp</a>
